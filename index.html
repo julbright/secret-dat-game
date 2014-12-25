@@ -1,3 +1,4 @@
+<!DOCTYPE HTML>
 <html>
   <head>
     <!-- Pull the engine from the Quintus CDN or load it locally -->
@@ -8,11 +9,11 @@
      <script>
      window.addEventListener("load",function() {
       // Now set up your game (most games will load a separate .js file)
-      var Q = window.Q = Quintus({development: true})                         // Create a new engine instance
+      var Q = window.Q = Quintus({development: true})           // Create a new engine instance
               .include("Sprites, Scenes, Input, 2D, Touch, UI") // Load any needed modules
               .setup({
-                width:320,
-                height:480});                      // Add a canvas element onto the page
+                width  : 320,
+                height : 480});                    // Add a canvas element onto the page
               //.controls()                        // Add in default controls (keyboard, buttons)
               //.touch();                          // Add in touch support (for the UI)
               
@@ -24,7 +25,9 @@
             //var collisionLayer = new Q.TileLayer({ dataAsset: 'level_collision.json', sheet: 'tiles' });
 
             //backgroud elements, they don't collide with the player
-            var backgroundLayer = new Q.TileLayer({dataAsset: "background_layer.json", sheet: "floor" });
+            var backgroundLayer = new Q.TileLayer({
+              dataAsset: "background_layer.json",
+                  sheet: "tiles" });
 
             // var backgroundLayerTest = new Q.TileLayer({dataAsset: "level_background.json", sheet: "tiles"}); 
 
@@ -34,8 +37,8 @@
             // stage.insert(backgroundLayerTest);
           });
 
-     Q.load("background_layer.json, floor.png, level_background.json, tiles.png", function() {
-            Q.sheet("floor","floor.png", {tilew: 32, tileh: 32 });
+     Q.load("background_layer.json, tiles.png", function() {
+            Q.sheet("tiles","tiles.png", {tilew: 32, tileh: 32 });
             // Q.sheet("tiles", "tiles.png", {tilew: 32,
             //  tileh: 32});
             //Q.compileSheets("sprites.png", "sprites.json");
@@ -45,7 +48,7 @@
             console.log("Where is my scene?");
           });
 
-      console.log("I'm aliveeee")
+      console.log("I'm aliveeee");
   });
    </script>
    </body>
