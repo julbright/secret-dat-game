@@ -4,53 +4,42 @@
     <!-- (use quintus-all.min.js for production) -->
     <script src='http://cdn.html5quintus.com/v0.2.0/quintus-all.js'></script>
   </head>
-   <body>
+   <body style="background-color: black;">
      <script>
      window.addEventListener("load",function() {
       // Now set up your game (most games will load a separate .js file)
       var Q = window.Q = Quintus({development: true})                         // Create a new engine instance
               .include("Sprites, Scenes, Input, 2D, Touch, UI") // Load any needed modules
-              .setup({width:1000,
-              height:1000})                           // Add a canvas element onto the page
+              .setup({
+                width:320,
+                height:480});                      // Add a canvas element onto the page
               //.controls()                        // Add in default controls (keyboard, buttons)
               //.touch();                          // Add in touch support (for the UI)
               
       /*
         ... Actual game code goes here ... 
       */
-     Q.scene("level1",function(stage) {
+     Q.scene("level1", function(stage) {
             //we want to make the player collide with this layer
             //var collisionLayer = new Q.TileLayer({ dataAsset: 'level_collision.json', sheet: 'tiles' });
 
             //backgroud elements, they don't collide with the player
-            var backgroundLayer = new Q.TileLayer({ dataAsset: 'background_layer.json', sheet: 'floor' });
+            var backgroundLayer = new Q.TileLayer({dataAsset: "background_layer.json", sheet: "floor" });
+
+            // var backgroundLayerTest = new Q.TileLayer({dataAsset: "level_background.json", sheet: "tiles"}); 
 
             //add these elements to the stage
-            //stage.collisionLayer(collisionLayer);
+
             stage.insert(backgroundLayer);
-
-            //var sprite = new Q.Sprite({
-             // x: 150,
-             // y: 50,
-            //  sheet: "player"
-            //});
-
-            /*var sprite2 = new Q.Sprite({
-              x: 100,
-              y: 70,
-              sheet: "bluerival"
-            });
-*/
-/*
-            stage.insert(sprite);
-            stage.insert(sprite2);
-*/
+            // stage.insert(backgroundLayerTest);
           });
 
-     Q.load("background_layer.json, floor.png", function() {
-            Q.sheet("floor","floor.png", { tilew: 320, tileh: 420 });
+     Q.load("background_layer.json, floor.png, level_background.json, tiles.png", function() {
+            Q.sheet("floor","floor.png", {tilew: 32, tileh: 32 });
+            // Q.sheet("tiles", "tiles.png", {tilew: 32,
+            //  tileh: 32});
             //Q.compileSheets("sprites.png", "sprites.json");
-            console.log("Loaded!");
+            // console.log("Loaded!");
 
             Q.stageScene("level1");
             console.log("Where is my scene?");
