@@ -1,3 +1,7 @@
 {
-	"student":{"sx":164,"sy":1,"cols":1,"tilew":32,"tileh":32,"frames":1}
+	"chair":{"sx":64,"sy":1,"cols":1,"tilew":32,"tileh":32,"frames":1},
+	"table":{"sx": 96, "sy":1, "cols": 1, "tilew": 32, "tileh": 32, "frames":1},
+	"student":{"sx": 192, "sy":1, "cols":1, "tilew": 30, "tileh": 48, "frames":1}
+
+	
 }
