@@ -32,16 +32,31 @@
             // var backgroundLayerTest = new Q.TileLayer({dataAsset: "level_background.json", sheet: "tiles"}); 
 
             //add these elements to the stage
-
+          Q.STUDENT_AND_FURNITURE = 0;  
+          Q.TEACHER = 1;  
+          //Q.MYSTERY = 2;  
+            //make a sprite
+            var sprite = new Q.Sprite({
+              x: 50,
+              y: 50,
+              sheet: 'student',
+              type: Q.STUDENT_AND_FURNITURE,
+              collisionMask: Q.TEACHER    
+            });
+            //sprite.add('2d');
             stage.insert(backgroundLayer);
+
+            stage.insert(sprite);
+
+            
             // stage.insert(backgroundLayerTest);
           });
 
-     Q.load("background_layer.json, tiles.png", function() {
+     Q.load("background_layer.json, tiles.png, sprites.json", function() {
             Q.sheet("tiles","tiles.png", {tilew: 32, tileh: 32 });
             // Q.sheet("tiles", "tiles.png", {tilew: 32,
             //  tileh: 32});
-            //Q.compileSheets("sprites.png", "sprites.json");
+            Q.compileSheets("tiles.png", "sprites.json");
             // console.log("Loaded!");
 
             Q.stageScene("level1");
