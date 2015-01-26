@@ -1,19 +1,24 @@
 <!DOCTYPE HTML>
 <html>
   <head>
+
     <!-- Pull the engine from the Quintus CDN or load it locally -->
     <!-- (use quintus-all.min.js for production) -->
     <script src='http://cdn.html5quintus.com/v0.2.0/quintus-all.js'></script>
+    <script src='characters.js'>
+   </script>
   </head>
    <body style="background-color: black;">
+
      <script>
      window.addEventListener("load",function() {
       // Now set up your game (most games will load a separate .js file)
       var Q = window.Q = Quintus({development: true})           // Create a new engine instance
-              .include("Sprites, Scenes, Input, 2D, Touch, UI") // Load any needed modules
+              .include("Sprites, Scenes, Input, 2D, Touch, UI, Characters, Input") // Load any needed modules
               .setup({
                 width  : 320,
-                height : 480});                    // Add a canvas element onto the page
+                height : 480})
+              .controls();                    // Add a canvas element onto the page
               //.controls()                        // Add in default controls (keyboard, buttons)
               //.touch();                          // Add in touch support (for the UI)
               
@@ -59,6 +64,9 @@
               type: Q.STUDENT_AND_FURNITURE,
               collisionMask: Q.TEACHER    
             });
+
+            var teacher = new Q.Teacher({
+                      sheet: 'teacher'});
             //sprite.add('2d');
             stage.insert(backgroundLayer);
 
@@ -66,6 +74,7 @@
             stage.insert(table);
             stage.insert(student);
             stage.insert(chair);
+            stage.insert(teacher);
 
             
             // stage.insert(backgroundLayerTest);
@@ -85,5 +94,6 @@
       console.log("I'm aliveeee");
   });
    </script>
+
    </body>
 </html>
