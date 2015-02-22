@@ -26,58 +26,38 @@
         ... Actual game code goes here ... 
       */
      Q.scene("level1", function(stage) {
-            //we want to make the player collide with this layer
-            //var collisionLayer = new Q.TileLayer({ dataAsset: 'level_collision.json', sheet: 'tiles' });
-
-            //backgroud elements, they don't collide with the player
-            var backgroundLayer = new Q.TileLayer({
-              dataAsset: "background_layer.json",
-                  sheet: "tiles" });
-
-            // var backgroundLayerTest = new Q.TileLayer({dataAsset: "level_background.json", sheet: "tiles"}); 
+          //kill gravity for this scene!
+          Q.gravityX = 0;
+          Q.gravityY = 0;
 
             //add these elements to the stage
           Q.STUDENT_AND_FURNITURE = 0;  
           Q.TEACHER = 1;  
-          //Q.MYSTERY = 2;  
-            //make a sprite
-            var chair = new Q.Sprite({
-              x: 50,
-              y: 70,
-              sheet: 'chair',
-              type: Q.STUDENT_AND_FURNITURE,
-              collisionMask: Q.TEACHER    
-            });
+          Q.NONE = 3;
 
-            var table = new Q.Sprite({
-              x: 50,
-              y: 50,
-              sheet: 'table',
-              type: Q.STUDENT_AND_FURNITURE,
-              collisionMask: Q.TEACHER    
-            });
-
-            var student = new Q.Sprite({
-              x: 50,
-              y: 60,
-              sheet: 'student',
-              type: Q.STUDENT_AND_FURNITURE,
-              collisionMask: Q.TEACHER    
-            });
+            //backgroud elements, they don't collide with the player
+          var backgroundLayer = new Q.TileLayer({
+              dataAsset: "background_layer.json",
+                  sheet: "tiles",
+                  type: Q.NONE});
+            
+            var student1 = new Q.Student({
+                      sheet: 'table',
+                      x: 50,
+                      y: 50});
+            var student2 = new Q.Student({
+                      sheet: 'table',
+                      x: 170,
+                      y: 170});
 
             var teacher = new Q.Teacher({
                       sheet: 'teacher'});
-            //sprite.add('2d');
             stage.insert(backgroundLayer);
-
             
-            stage.insert(table);
-            stage.insert(student);
-            stage.insert(chair);
+
+            stage.insert(student1);
+            stage.insert(student2);
             stage.insert(teacher);
-
-            
-            // stage.insert(backgroundLayerTest);
           });
 
      Q.load("background_layer.json, tiles.png, sprites.json", function() {
@@ -85,7 +65,6 @@
             // Q.sheet("tiles", "tiles.png", {tilew: 32,
             //  tileh: 32});
             Q.compileSheets("tiles.png", "sprites.json");
-            // console.log("Loaded!");
 
             Q.stageScene("level1");
             console.log("Where is my scene?");

@@ -7,17 +7,32 @@ Quintus.Characters = function(Q) {
         y: 60,
         collisionMask: Q.STUDENT_AND_FURNITURE
       });
-      Q.input.on("right",this,"stepRight");
-      Q.input.on("left", this,"stepLeft");
-      this.p.vx = 60 + Math.random()*40;
-    },
-    stepRight: function(p){
-    	this.p.x = this.p.x + 10;
-    },
-    stepLeft: function(p){
-    	this.p.x = this.p.x - 10;
+      this.add("2d");
+      this.add("stepControls");
+    }
+  });
+
+  Q.Sprite.extend("Student", {
+    init: function(p) {
+      this._super(p, {
+        type: Q.STUDENT_AND_FURNITURE,
+        collisionMask: Q.TEACHER  
+      });
+      this.add("2d");
+      this.on("hit", function(collision){
+        if(collision.obj.isA("Teacher")){
+          console.log("Thanks Aaron!");
+        }
+        else{
+          console.log(collision.obj);
+        }
+      });
     }
   });
 }
-console.log('i am the teacher and i got loaded');
+
+
+
+
+
 
