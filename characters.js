@@ -14,6 +14,24 @@ Quintus.Characters = function(Q) {
     mourn: function(student){
       student.destroy();
       this.p.hitPoints = this.p.hitPoints - 10;
+    },
+    step: function(dt){
+      if(this.p.x < 0){
+      // this.p.hitPoints = this.p.hitPoints - 1;
+        this.p.x = 0;
+      }
+      else if(this.p.x > 320){
+        this.p.x = 320; // probably shouldn't hardcode these value
+      }
+      else if(this.p.y < 0){
+        this.p.y = 0;
+      }
+      else if(this.p.y > 320){ // shouldn't hardcode this either.
+        this.p.y = 320;        // and, oddly, our screen is like 480
+      }                        // but we only have 320 worth of tiles out there.
+    
+      console.log(this.p.x, this.p.y);
+
     }
   });
 
@@ -38,8 +56,8 @@ Quintus.Characters = function(Q) {
     },
     step: function(dt){
       if(this.p.hitPoints > 0){
-      this.p.hitPoints = this.p.hitPoints - 1;
-      console.log(this.p.hitPoints);
+      this.p.hitPoints = this.p.hitPoints - 0.1;
+      // console.log(this.p.hitPoints);
     }
       else{
         this.trigger("death", this);
