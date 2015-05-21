@@ -32,28 +32,35 @@ function create() {
   layer.resizeWorld(); //TODO - what is this
 
   chairs = game.add.group();
+  chairs.enableBody = true;
+  chairs.physicsBodyType = Phaser.Physics.ARCADE;
 
-  var chair = chairs.create(0,0, 'dude_tiles', 1);
-
-  var desk = game.add.sprite(32, 64, 'dude_tiles', 2);
+  var chair = chairs.create(32,64, 'dude_tiles', 2);
+  chair.body.immovable = true;
+  
 
   player = game.add.sprite(64, 96, 'aaron', 7);
 
   game.physics.arcade.enable(player);
   player.body.gravity.y = 0;
+  player.body.collideWorldBounds = true;
 
   player.animations.add('left', [9, 10, 11], 10, true);
   player.animations.add('right', [3,4,5], 10, true);
   player.animations.add('up', [0,1,2], 10, true);
   player.animations.add('down', [6,7,8], 10, true);
 
+
+
   cursors = game.input.keyboard.createCursorKeys();
 }
 
 function update() {
+ //collision masks
 
+  game.physics.arcade.collide(player, chairs);
   
-
+ // movement controls
   if (cursors.left.isDown)
     {
         //  Move to the left
