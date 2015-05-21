@@ -3,6 +3,7 @@ var game = new Phaser.Game(320, 480, Phaser.AUTO, '', { preload: preload, create
 
 var cursors;
 var player;
+var cursor;
 
 function preload() {
 
@@ -43,11 +44,15 @@ function create() {
 
   player.animations.add('left', [9, 10, 11], 10, true);
   player.animations.add('right', [3,4,5], 10, true);
+  player.animations.add('up', [0,1,2], 10, true);
+  player.animations.add('down', [6,7,8], 10, true);
 
   cursors = game.input.keyboard.createCursorKeys();
 }
 
 function update() {
+
+  
 
   if (cursors.left.isDown)
     {
@@ -55,6 +60,8 @@ function update() {
         player.body.velocity.x = -150;
 
         player.animations.play('left');
+
+        cursor = "left";
     }
     else if (cursors.right.isDown)
     {
@@ -62,6 +69,26 @@ function update() {
         player.body.velocity.x = 150;
 
         player.animations.play('right');
+
+        cursor = "right";
+    }
+    else if (cursors.down.isDown)
+    {
+        //  Move to the right
+        player.body.velocity.y = 150;
+
+        player.animations.play('down');
+
+        cursor = "down";
+    }
+    else if (cursors.up.isDown)
+    {
+        //  Move to the right
+        player.body.velocity.y = -150;
+
+        player.animations.play('up');
+
+        cursor = "up";
     }
     else
     {
@@ -69,7 +96,19 @@ function update() {
         player.animations.stop();
 
         player.body.velocity.x = 0;
-
-        player.frame = 7;
+        player.body.velocity.y = 0;
+        
+        if (cursor == "up"){
+          player.frame = 1;
+        }
+        else if (cursor == "left"){
+          player.frame = 10;
+        }
+        else if (cursor == "right"){
+          player.frame = 4;
+        }
+        else {
+          player.frame = 7;
+        } 
     }
 }
