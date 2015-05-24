@@ -1,9 +1,28 @@
 
-var game = new Phaser.Game(320, 480, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(320, 640, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 var cursors;
 var player;
 var cursor;
+
+var counter = 60;
+var text = 0;
+
+function updateCounter() {
+
+    counter--;
+
+    text.setText('Counter: ' + counter);
+
+}
+
+
+function render() {
+
+    game.debug.text("Time until event: " + game.time.events.duration.toFixed(0), 32, 32);
+    game.debug.text("Next tick: " + game.time.events.next.toFixed(0), 32, 64);
+
+}
 
 function preload() {
 
@@ -37,10 +56,16 @@ function create() {
 
   var chair = chairs.create(32,64, 'dude_tiles', 2);
   chair.body.immovable = true;
-  chair.lifespan = 10000;
-  chair.time_taught = game.time
+  chair.lifespan = 1000000;
+  chair.time_taught = counter //TODO: Time taught shouldn't start at 60?
   
+  //create game timer
+  text = game.add.text(game.world.centerX, 500, 'Counter: 0', { font: "24px Arial", fill: "#ffffff", align: "center" });
+  text.anchor.setTo(0.5, 0.5);
+  game.time.events.loop(Phaser.Timer.SECOND, updateCounter, this);
 
+
+  //create player
   player = game.add.sprite(64, 96, 'aaron', 7);
 
   game.physics.arcade.enable(player);
@@ -61,15 +86,36 @@ function create() {
 
 function update() {
 
-  console.log(game.time);
-
   function collideCallback(player, chair){
     // lose points
-    chair.lifespan = chair.lifespan + 100;
+    if (check_for_teach(player, chair)){
+        chair.lifespan = chair.lifespan + 100;
+        chair.time_taught = counter;
+        console.log("Lifespan is "+ chair.lifespan)
+      }
   };
 
-  function processCallback(){
+  function check_for_teach(player, chair){
     // check to see if student was recently instructed
+    // if the student was taught at counter 50
+    // and 10 seconds have passed and the counter is now 40
+    // 50 > 45 is true, return true
+    // if the student was taught at counter 50
+    // and 2 seconds have passed and the counter is now 48
+    // 50 > 53 is false, return false
+
+    console.log("I made it :)");
+    console.log(chair.time_taught);
+    console.log(counter);
+
+    if (chair.time_taught > counter + 5){
+      console.log("Teach away!");
+      return true
+    }
+    else {
+      console.log("You can't teach yet!");
+      return false
+    }
   };
  //collision masks
 
