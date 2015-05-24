@@ -37,6 +37,8 @@ function create() {
 
   var chair = chairs.create(32,64, 'dude_tiles', 2);
   chair.body.immovable = true;
+  chair.lifespan = 10000;
+  chair.time_taught = game.time
   
 
   player = game.add.sprite(64, 96, 'aaron', 7);
@@ -44,6 +46,8 @@ function create() {
   game.physics.arcade.enable(player);
   player.body.gravity.y = 0;
   player.body.collideWorldBounds = true;
+
+  player.health = 10000;
 
   player.animations.add('left', [9, 10, 11], 10, true);
   player.animations.add('right', [3,4,5], 10, true);
@@ -56,9 +60,20 @@ function create() {
 }
 
 function update() {
+
+  console.log(game.time);
+
+  function collideCallback(player, chair){
+    // lose points
+    chair.lifespan = chair.lifespan + 100;
+  };
+
+  function processCallback(){
+    // check to see if student was recently instructed
+  };
  //collision masks
 
-  game.physics.arcade.collide(player, chairs);
+  game.physics.arcade.collide(player, chairs, collideCallback);
   
  // movement controls
   if (cursors.left.isDown)
