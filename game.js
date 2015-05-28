@@ -56,8 +56,14 @@ function create() {
 
   var chair = chairs.create(32,64, 'dude_tiles', 2);
   chair.body.immovable = true;
-  chair.lifespan = 1000000;
+  chair.lifespan = 10000;
   chair.time_taught = counter //TODO: Time taught shouldn't start at 60?
+
+  chair.events.onKilled.add(function(){
+    console.log(player.health);
+    player.damage(10);
+    console.log(player.health);
+  })
   
   //create game timer
   text = game.add.text(game.world.centerX, 500, 'Counter: 0', { font: "24px Arial", fill: "#ffffff", align: "center" });
@@ -79,7 +85,7 @@ function create() {
   player.animations.add('up', [0,1,2], 10, true);
   player.animations.add('down', [6,7,8], 10, true);
 
-
+  
 
   cursors = game.input.keyboard.createCursorKeys();
 }
