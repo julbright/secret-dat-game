@@ -12,44 +12,7 @@
 </head>
 <body>
 
-<script type="text/javascript">
-
-var game = new Phaser.Game(320, 480, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-
-function preload() {
-
-  //game.load.image('sky', 'assets/sky.png');
-   // game.load.image('ground', 'assets/platform.png');
-    //game.load.image('star', 'assets/star.png');
-    //game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-
-
-    game.load.tilemap('map', 'data/background_layer.csv', null, Phaser.Tilemap.CSV);
-    game.load.image('tiles', "images/tiles.png");
-    game.load.spritesheet('dude_tiles', 'images/tiles.png', 32, 48);
-}
-
-//spritesheet(key, url, frameWidth, frameHeight, frameMax, margin, spacing) → {Phaser.Loader}
-
-function create() {
-
-  chairs = game.add.group();
-
-  var chair = chairs.create(0,0, 'dude_tiles', 2);
-
-  var map = game.add.tilemap('map', 32, 32);
-  map.addTilesetImage('tiles');
-
-  var layer = map.createLayer(0);
-  layer.resizeWorld(); //TODO - what is this
-
-  var desk = game.add.sprite(32, 64, 'dude_tiles', 3);
-
-}
-
-function update() {
-}
-
+<script src="game.js" type="text/javascript">
 </script>
 
 </body>
