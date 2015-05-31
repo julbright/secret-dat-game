@@ -59,11 +59,7 @@ function create() {
   chair.lifespan = 10000;
   chair.time_taught = counter //TODO: Time taught shouldn't start at 60?
 
-  chair.events.onKilled.add(function(){
-    console.log(player.health);
-    player.damage(10);
-    console.log(player.health);
-  })
+  
   
   //create game timer
   text = game.add.text(game.world.centerX, 500, 'Counter: 0', { font: "24px Arial", fill: "#ffffff", align: "center" });
@@ -88,7 +84,21 @@ function create() {
   
 
   cursors = game.input.keyboard.createCursorKeys();
+
+  chair.events.onKilled.add(function(chair){
+    console.log(this);
+    console.log(this.health);
+    this.damage(10);
+    console.log(this.health);
+  },player);
 }
+
+// function mourn(player){
+//     console.log(player);
+//     console.log(player.health);
+//     player.damage(10);
+//     console.log(player.health);
+//   };
 
 function update() {
 
@@ -97,7 +107,6 @@ function update() {
     if (check_for_teach(player, chair)){
         chair.lifespan = chair.lifespan + 100;
         chair.time_taught = counter;
-        console.log("Lifespan is "+ chair.lifespan)
       }
   };
 
@@ -110,16 +119,10 @@ function update() {
     // and 2 seconds have passed and the counter is now 48
     // 50 > 53 is false, return false
 
-    console.log("I made it :)");
-    console.log(chair.time_taught);
-    console.log(counter);
-
     if (chair.time_taught > counter + 5){
-      console.log("Teach away!");
       return true
     }
     else {
-      console.log("You can't teach yet!");
       return false
     }
   };
