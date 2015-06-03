@@ -1,5 +1,6 @@
-
-var game = new Phaser.Game(320, 640, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var width = 320;
+var height = 640;
+var game = new Phaser.Game(width, height, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 var cursors;
 var player;
@@ -62,10 +63,66 @@ function create() {
   
   
   //create game timer
+    /*
+        Code for the pause menu
+    */
+
+    // Create a label to use as a button
+    pause_label = game.add.text(width-100, 20, 'Pause', { font: '24px Arial', fill: '#000' });
+    pause_label.inputEnabled = true;
+    pause_label.events.onInputUp.add(function () {
+        // When the pause button is pressed, we pause the game
+        game.paused = true;
+
+        // Then add the menu
+        menu = game.add.sprite(width/2, height/2, 'tiles');
+        menu.anchor.setTo(0.5, 0.5);
+
+        // And a label to illustrate which menu item was chosen. (This is not necessary)
+        choiceLabel = game.add.text(width/2, height-150, 'Click outside menu to continue', { font: '30px Arial', fill: '#fff' });
+        choiceLabel.anchor.setTo(0.5, 0.5);
+    });
+
+    // Add a input listener that can help us return from being paused
+    game.input.onDown.add(unpause, self);
+
+    // And finally the method that handles the pause menu
+    function unpause(event){
+        // Only act if paused
+        if(game.paused){
+            // Calculate the corners of the menu
+            var x1 = width/2 - 270/2, x2 = width/2 + 270/2,
+                y1 = height/2 - 180/2, y2 = height/2 + 180/2;
+
+            // Check if the click was inside the menu
+            if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
+                // The choicemap is an array that will help us see which item was clicked
+                var choisemap = ['one', 'two', 'three', 'four', 'five', 'six'];
+
+                // Get menu local coordinates for the click
+                var x = event.x - x1,
+                    y = event.y - y1;
+
+                // Calculate the choice 
+                var choise = Math.floor(x / 90) + 3*Math.floor(y / 90);
+
+                // Display the choice
+                choiceLabel.text = 'You chose menu item: ' + choisemap[choise];
+            }
+            else{
+                // Remove the menu and the label
+                menu.destroy();
+                choiceLabel.destroy();
+
+                // Unpause the game
+                game.paused = false;
+            }
+        }
+    };
+
   text = game.add.text(game.world.centerX, 500, 'Counter: 0', { font: "24px Arial", fill: "#ffffff", align: "center" });
   text.anchor.setTo(0.5, 0.5);
   game.time.events.loop(Phaser.Timer.SECOND, updateCounter, this);
-
 
   //create player
   player = game.add.sprite(64, 96, 'aaron', 7);
