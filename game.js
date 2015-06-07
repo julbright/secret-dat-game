@@ -9,6 +9,8 @@ var cursor;
 var counter = 60;
 var text = 0;
 
+var timer;
+
 function updateCounter() {
 
     counter--;
@@ -45,6 +47,8 @@ function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
+  //create the sprites and tiles
+
   var map = game.add.tilemap('map', 32, 32);
   map.addTilesetImage('tiles');
 
@@ -60,9 +64,6 @@ function create() {
   chair.lifespan = 10000;
   chair.time_taught = counter //TODO: Time taught shouldn't start at 60?
 
-  
-  
-  //create game timer
     /*
         Code for the pause menu
     */
@@ -120,9 +121,13 @@ function create() {
         }
     };
 
-  text = game.add.text(game.world.centerX, 500, 'Counter: 0', { font: "24px Arial", fill: "#ffffff", align: "center" });
+  text = game.add.text(game.world.centerX, 500, 'Counter: 60', { font: "24px Arial", fill: "#ffffff", align: "center" });
   text.anchor.setTo(0.5, 0.5);
-  game.time.events.loop(Phaser.Timer.SECOND, updateCounter, this);
+
+  //create the timer
+  timer = game.time.create(autodestroy=false);
+  timer.loop(Phaser.Timer.SECOND, updateCounter, this);
+  timer.start()
 
   //create player
   player = game.add.sprite(64, 96, 'aaron', 7);
