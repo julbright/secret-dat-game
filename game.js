@@ -71,7 +71,9 @@ function create() {
     // Create a label to use as a button
     pause_label = game.add.text(width-100, 20, 'Pause', { font: '24px Arial', fill: '#000' });
     pause_label.inputEnabled = true;
-    pause_label.events.onInputUp.add(function () {
+    pause_label.events.onInputUp.add(createMenu, self);
+
+    function createMenu() {
         // When the pause button is pressed, we pause the game
         game.paused = true;
 
@@ -82,7 +84,7 @@ function create() {
         // And a label to illustrate which menu item was chosen. (This is not necessary)
         choiceLabel = game.add.text(width/2, height-150, 'Click outside menu to continue', { font: '30px Arial', fill: '#fff' });
         choiceLabel.anchor.setTo(0.5, 0.5);
-    });
+    }
 
     // Add a input listener that can help us return from being paused
     game.input.onDown.add(unpause, self);
@@ -127,6 +129,7 @@ function create() {
   //create the timer
   timer = game.time.create(autodestroy=false);
   timer.loop(Phaser.Timer.SECOND, updateCounter, this);
+  timer.add(2000, endRound, this, createMenu)
   timer.start()
 
   //create player
@@ -154,6 +157,10 @@ function create() {
     console.log(this.health);
   },player);
 }
+function endRound(createMenu){
+  console.log("suppppp");
+  createMenu();
+};
 
 // function mourn(player){
 //     console.log(player);
