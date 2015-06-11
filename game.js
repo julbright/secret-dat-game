@@ -1,6 +1,22 @@
+
 var height = 1080;
 var width = 1920;
 var game = new Phaser.Game(width, height, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+if(game.device.desktop){
+    console.log('desktop!');
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.setMinMax(480, 260, 1024, 768);
+    game.scale.pageAlignHorizontally = true;
+    game.scale.pageAlignVertically   = true;
+    
+}
+else{
+    
+    console.log(game.device);
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.setMinMax(480, 260, 1920, 1080);
+}
 
 var cursors;
 var player;
@@ -53,7 +69,7 @@ function create() {
   map.addTilesetImage('tiles');
 
   var layer = map.createLayer(0);
-  layer.resizeWorld(); //TODO - what is this
+  layer.resizeWorld(); //TODO - what is game
 
   chairs = game.add.group();
   chairs.enableBody = true;
@@ -81,7 +97,7 @@ function create() {
         menu = game.add.sprite(width/2, height/2, 'tiles');
         menu.anchor.setTo(0.5, 0.5);
 
-        // And a label to illustrate which menu item was chosen. (This is not necessary)
+        // And a label to illustrate which menu item was chosen. (game is not necessary)
         choiceLabel = game.add.text(width/2, height-150, 'Click outside menu to continue', { font: '30px Arial', fill: '#fff' });
         choiceLabel.anchor.setTo(0.5, 0.5);
     }
@@ -128,8 +144,8 @@ function create() {
 
   //create the timer
   timer = game.time.create(autodestroy=false);
-  timer.loop(Phaser.Timer.SECOND, updateCounter, this);
-  timer.add(2000, endRound, this, createMenu)
+  timer.loop(Phaser.Timer.SECOND, updateCounter, game);
+  timer.add(2000, endRound, game, createMenu)
   timer.start()
 
   //create player
@@ -151,10 +167,10 @@ function create() {
   cursors = game.input.keyboard.createCursorKeys();
 
   chair.events.onKilled.add(function(chair){
-    console.log(this);
-    console.log(this.health);
-    this.damage(10);
-    console.log(this.health);
+    console.log(game);
+    console.log(game.health);
+    game.damage(10);
+    console.log(game.health);
   },player);
 }
 function endRound(createMenu){
