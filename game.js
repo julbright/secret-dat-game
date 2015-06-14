@@ -167,10 +167,10 @@ function create() {
   cursors = game.input.keyboard.createCursorKeys();
 
   chair.events.onKilled.add(function(chair){
-    console.log(game);
-    console.log(game.health);
-    game.damage(10);
-    console.log(game.health);
+    console.log(this);
+    console.log(this.health);
+    this.damage(10);
+    console.log(this.health);
   },player);
 }
 function endRound(createMenu){
