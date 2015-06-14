@@ -3,20 +3,6 @@ var height = 1080;
 var width = 1920;
 var game = new Phaser.Game(width, height, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
-if(game.device.desktop){
-    console.log('desktop!');
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    game.scale.setMinMax(480, 260, 1024, 768);
-    game.scale.pageAlignHorizontally = true;
-    game.scale.pageAlignVertically   = true;
-    
-}
-else{
-    
-    console.log(game.device);
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    game.scale.setMinMax(480, 260, 1920, 1080);
-}
 
 var cursors;
 var player;
