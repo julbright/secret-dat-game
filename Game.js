@@ -35,6 +35,10 @@ BasicGame.Game = function (game) {
     this.text = 0;
 
     this.timer;
+    
+    this.menu;
+    
+    
 };
 
 BasicGame.Game.prototype = {
@@ -78,7 +82,7 @@ preload: function () {
     this.game.load.tilemap('map', 'data/background_layer.csv', null, Phaser.Tilemap.CSV);
     this.game.load.image('tiles', "images/tiles.png");
     this.game.load.spritesheet('dude_tiles', 'images/tiles.png', 32, 32);
-    this.game.load.spritesheet('aaron', 'images/townfolk1_m.png', 32, 36, 12)
+    this.game.load.spritesheet('aaron', 'images/townfolk1_m.png', 32, 36, 12);
 },
 
 //spritesheet(key, url, frameWidth, frameHeight, frameMax, margin, spacing) → {Phaser.Loader}
@@ -88,7 +92,7 @@ preload: function () {
         this.game.paused = true;
 
         // Then add the menu
-        menu = this.add.sprite(this.width/2, this.height/2, 'tiles');
+        var menu = this.add.sprite(this.width/2, this.height/2, 'tiles');
         menu.anchor.setTo(0.5, 0.5);
 
         // And a label to illustrate which menu item was chosen. (game is not necessary)
@@ -123,8 +127,8 @@ preload: function () {
         }
         else{
             // Remove the menu and the label
-            menu.destroy();
-            choiceLabel.destroy();
+            this.menu.destroy();
+            this.choiceLabel.destroy();
 
             // Unpause the game
             this.game.paused = false;
@@ -144,23 +148,23 @@ create: function () {
   var layer = map.createLayer(0);
   layer.resizeWorld(); //TODO - what is game
 
-  chairs = this.add.group();
+  var chairs = this.add.group();
   chairs.enableBody = true;
   chairs.physicsBodyType = Phaser.Physics.ARCADE;
 
   var chair = chairs.create(32,64, 'dude_tiles', 2);
   chair.body.immovable = true;
   chair.lifespan = 10000;
-  chair.time_taught = this.counter //TODO: Time taught shouldn't start at 60?
+  chair.time_taught = this.counter; //TODO: Time taught shouldn't start at 60?
 
     /*
         Code for the pause menu
     */
 
     // Create a label to use as a button
-    pause_label = this.add.text(this.width-100, 20, 'Pause', { font: '24px Arial', fill: '#000' });
+    var pause_label = this.add.text(this.width-100, 20, 'Pause', { font: '24px Arial', fill: '#000' });
     pause_label.inputEnabled = true;
-    pause_label.events.onInputUp.add(createMenu, self);
+    pause_label.events.onInputUp.add(this.createMenu, self);
 
      // Add a input listener that can help us return from being paused
     this.game.input.onDown.add(this.unpause, self);
@@ -190,7 +194,7 @@ create: function () {
 
   
 
-  cursors = this.game.input.keyboard.createCursorKeys();
+  this.cursors = this.game.input.keyboard.createCursorKeys();
 
   chair.events.onKilled.add(function(chair){
     console.log(this);
@@ -220,7 +224,7 @@ update: function() {
         chair.lifespan = chair.lifespan + 100;
         chair.time_taught = this.counter;
       }
-  };
+  }
 
   function check_for_teach(player, chair){
     // check to see if student was recently instructed

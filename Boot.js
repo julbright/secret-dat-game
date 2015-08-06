@@ -24,6 +24,7 @@ BasicGame.Boot.prototype = {
         {
             //  Same goes for mobile settings.
             //  In this case we're saying "scale the game, no lower than 480x260 and no higher than 1024x768"
+            console.log("I'm a mobile thing.");
             this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             this.scale.setMinMax(480, 260, 1024, 768);
             this.scale.forceLandscape = true;
