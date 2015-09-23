@@ -1,5 +1,5 @@
 
-BasicGame.Preloader = function (game) {
+BasicGame.Preloader = function () {
 
 	this.background = null;
 	this.preloadBar = null;

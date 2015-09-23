@@ -1,5 +1,5 @@
 
-BasicGame.Game = function (game) {
+BasicGame.Game = function () {
 
     //  When a State is added to Phaser it automatically has the following properties set on it, even if they already exist:
 
@@ -23,8 +23,8 @@ BasicGame.Game = function (game) {
     //  You can use any of these from any function within this State.
     //  But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
 
-    this.height = 1080;
-    this.width = 1920;
+    this.height = 300;
+    this.width = 300;
 
 
     this.cursors;
@@ -42,6 +42,10 @@ BasicGame.Game = function (game) {
 };
 
 BasicGame.Game.prototype = {
+
+  // init: function(){
+  //   this.game = this.game;
+  // },
 
 
 quitGame: function (pointer) {
@@ -89,14 +93,14 @@ preload: function () {
 
  createMenu: function() {
         // When the pause button is pressed, we pause the game
-        this.game.paused = true;
+        this.paused = true;
 
         // Then add the menu
-        var menu = this.add.sprite(this.width/2, this.height/2, 'tiles');
+        var menu = this.add.sprite(20, 20, 'tiles');
         menu.anchor.setTo(0.5, 0.5);
 
         // And a label to illustrate which menu item was chosen. (game is not necessary)
-        this.choiceLabel = this.add.text(this.width/2, this.height-150, 'Click outside menu to continue', { font: '30px Arial', fill: '#fff' });
+        this.choiceLabel = this.add.text(20, 20, 'Click outside menu to continue', { font: '30px Arial', fill: '#fff' });
         this.choiceLabel.anchor.setTo(0.5, 0.5);
     },
 
@@ -105,7 +109,7 @@ preload: function () {
 // And finally the method that handles the pause menu
  unpause: function(event){
     // Only act if paused
-    if(this.game.paused){
+    if(this.paused){
         // Calculate the corners of the menu
         var x1 = this.width/2 - 270/2, x2 = this.width/2 + 270/2,
             y1 = this.height/2 - 180/2, y2 = this.height/2 + 180/2;
@@ -139,6 +143,7 @@ preload: function () {
 create: function () {
 
   this.physics.startSystem(Phaser.Physics.ARCADE);
+  
 
   //create the sprites and tiles
 
@@ -164,12 +169,16 @@ create: function () {
     // Create a label to use as a button
     var pause_label = this.add.text(this.width-100, 20, 'Pause', { font: '24px Arial', fill: '#000' });
     pause_label.inputEnabled = true;
-    pause_label.events.onInputUp.add(this.createMenu, self);
+
+    
+    pause_label.events.onInputUp.add(this.createMenu, this.game);
 
      // Add a input listener that can help us return from being paused
-    this.game.input.onDown.add(this.unpause, self);
+    this.game.input.onDown.add(this.unpause, this.game);
 
-  text = this.add.text(this.world.centerX, 500, 'Counter: 60', { font: "24px Arial", fill: "#ffffff", align: "center" });
+
+    //TODO: WHY IS THE WORLD SO BIG
+  text = this.add.text(100, 150, 'Counter: 60', { font: "24px Arial", fill: "#000000", align: "center" });
   text.anchor.setTo(0.5, 0.5);
 
   //create the timer
@@ -197,16 +206,24 @@ create: function () {
   this.cursors = this.game.input.keyboard.createCursorKeys();
 
   chair.events.onKilled.add(function(chair){
-    console.log(this);
-    console.log(this.health);
     this.damage(10);
-    console.log(this.health);
   },this.player);
+
+ //collision masks
+
+  this.physics.arcade.collide(this.player, chairs, collideCallback);
+
+    function collideCallback(player, chair){
+    // lose points
+    if (check_for_teach(player, chair)){
+        chair.lifespan = chair.lifespan + 100;
+        chair.time_taught = this.counter;
+      }
+  }
 },
 
 endRound: function(createMenu){
-  console.log("suppppp");
-  createMenu();
+  createMenu.apply(this);
 },
 
 // function mourn(player){
@@ -218,13 +235,6 @@ endRound: function(createMenu){
 
 update: function() {
 
-  function collideCallback(player, chair){
-    // lose points
-    if (check_for_teach(player, chair)){
-        chair.lifespan = chair.lifespan + 100;
-        chair.time_taught = this.counter;
-      }
-  }
 
   function check_for_teach(player, chair){
     // check to see if student was recently instructed
@@ -242,12 +252,10 @@ update: function() {
       return false
     }
   };
- //collision masks
 
-  this.physics.arcade.collide(this.player, chairs, collideCallback);
   
  // movement controls
-  if (cursors.left.isDown)
+  if (this.cursors.left.isDown)
     {
         //  Move to the left
        this.player.body.velocity.x = -150;
@@ -256,7 +264,7 @@ update: function() {
 
         this.cursor = "left";
     }
-    else if (cursors.right.isDown)
+    else if (this.cursors.right.isDown)
     {
         //  Move to the right
        this.player.body.velocity.x = 150;
@@ -265,7 +273,7 @@ update: function() {
 
         this.cursor = "right";
     }
-    else if (cursors.down.isDown)
+    else if (this.cursors.down.isDown)
     {
         //  Move to the right
        this.player.body.velocity.y = 150;
@@ -274,7 +282,7 @@ update: function() {
 
         this.cursor = "down";
     }
-    else if (cursors.up.isDown)
+    else if (this.cursors.up.isDown)
     {
         //  Move to the right
        this.player.body.velocity.y = -150;

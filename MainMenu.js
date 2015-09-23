@@ -1,5 +1,5 @@
 
-BasicGame.MainMenu = function (game) {
+BasicGame.MainMenu = function () {
 
 	this.music = null;
 	this.playButton = null;
@@ -19,7 +19,7 @@ BasicGame.MainMenu.prototype = {
 
 		//this.add.sprite(0, 0, 'titlepage');
 
-		this.playButton = this.add.button(400, 600, 'dude_tiles', this.startGame, this);
+		this.playButton = this.add.button(250, 250, 'dude_tiles', this.startGame, this);
 
 	},
 
