@@ -37,6 +37,8 @@ BasicGame.Game = function () {
     this.timer;
     
     this.menu;
+    this.choiseLabel;
+
     
     
 };
@@ -96,12 +98,15 @@ preload: function () {
         this.paused = true;
 
         // Then add the menu
-        var menu = this.add.sprite(20, 20, 'tiles');
-        menu.anchor.setTo(0.5, 0.5);
+        this.menu = this.add.sprite(20, 20, 'tiles');
+        this.menu.anchor.setTo(0.5, 0.5);
+
+        console.log(this);
 
         // And a label to illustrate which menu item was chosen. (game is not necessary)
         this.choiceLabel = this.add.text(20, 20, 'Click outside menu to continue', { font: '30px Arial', fill: '#fff' });
         this.choiceLabel.anchor.setTo(0.5, 0.5);
+
     },
 
    
@@ -111,8 +116,8 @@ preload: function () {
     // Only act if paused
     if(this.paused){
         // Calculate the corners of the menu
-        var x1 = this.width/2 - 270/2, x2 = this.width/2 + 270/2,
-            y1 = this.height/2 - 180/2, y2 = this.height/2 + 180/2;
+        var x1 = 20, x2 = 20,
+            y1 = 20, y2 = 20;
 
         // Check if the click was inside the menu
         if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
@@ -135,7 +140,7 @@ preload: function () {
             this.choiceLabel.destroy();
 
             // Unpause the game
-            this.game.paused = false;
+            this.paused = false;
         }
     }
 },
